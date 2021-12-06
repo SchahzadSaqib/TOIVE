@@ -1,0 +1,28 @@
+{
+    "id": "EFE2915E",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1638794311493.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "id": "5c5c19fa72c7466a80f7d57fd207c1de",
+        "name": "full_corr",
+        "title": "full_corr",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 7143307332890734690,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1638794311493,
+    "read_only": false,
+    "read_only_alternatives": []
+}

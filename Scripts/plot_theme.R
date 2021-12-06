@@ -1,0 +1,31 @@
+plot_theme <- function(plot_colour = "grey50", 
+                       text_size = 12) {
+theme_spec <- theme(legend.position = "right", 
+                    legend.text = element_text(face = "italic", 
+                                               colour = plot_colour, 
+                                               size = text_size),
+                    legend.title = element_text(colour = plot_colour, 
+                                                size = text_size),
+                    strip.text.x = element_text(colour = plot_colour, 
+                                                face = "italic", 
+                                                size = text_size),
+                    strip.text.y = element_text(colour = plot_colour, 
+                                                size = text_size),
+                    axis.line = ggplot2::element_line(colour = plot_colour),
+                    axis.title.x = element_text(colour = plot_colour, 
+                                                size = text_size), 
+                    axis.title.y = element_text(colour = plot_colour, 
+                                                size = text_size),
+                    axis.text.x = element_text(colour = plot_colour, 
+                                                angle = 90, 
+                                                size = text_size),
+                    axis.text.y = element_text(colour = plot_colour, 
+                                               size = text_size),
+                    axis.line.x = element_blank(),
+                    axis.line.y = element_blank(),
+                    panel.grid.major = ggplot2::element_blank(), 
+                    panel.grid.minor = ggplot2::element_blank(),
+                    strip.background =  ggplot2::element_rect(colour = "white"))
+
+ggplot2::theme_set(theme_minimal() + theme_spec)
+}
