@@ -145,49 +145,35 @@ GroupTest_mod <- function(species.table=NULL,
   tidyvar <- sym(group)
   
   taxa <- taxa %>%
-    
-    #' create anchor variables
     tibble::rownames_to_column(var = "SampleN") %>%
     dplyr::mutate(!!tidyvar := meta[[tidyvar]],
                   ReadCounts = meta$ReadCount) %>%
-    
-    #' reshape to longer format
     tidyr::pivot_longer(cols = -c(!!tidyvar, 
                                   SampleN, 
                                   ReadCounts), 
                         names_to = "taxa",
                         values_to = "Abundance") %>%
-    
-    #' group by grouping variable and get tally of samples
-    #' within each group
     dplyr::group_by(!!tidyvar) %>%
     dplyr::mutate(group_tally = n_distinct(SampleN)) %>%
-    
-    #' group by samples and convert to relative abundance
     dplyr::group_by(SampleN) %>%
-    dplyr::mutate(test_abd = Abundance/sum(Abundance)) %>%
-    
-    #' group by grouping variable and taxa to determine the 
-    #' frequency of occurrence of each taxon above the specified 
-    #' minimum abundance threshold
+    dplyr::mutate(rel_abd = Abundance/sum(Abundance)) %>%
     dplyr::group_by(!!tidyvar, taxa) %>%
-    dplyr::mutate(freq = sum(test_abd >= min.abundance),
-                  freq = freq/group_tally) %>%
-    
-    #' filter out taxa that do not meet the minimum prevalence 
-    #' threshold in either group
+    dplyr::mutate(
+      # calculate frequency of occurrence above the 
+      # specified minimum abundance for threshold for each taxon 
+      # within each grouping variable
+      freq = sum(rel_abd >= min.abundance),
+      freq = freq/group_tally,
+    ) %>%
     dplyr::group_by(taxa) %>%
-    dplyr::filter(any(freq >= min.prevalence)) %>%
+    dplyr::filter(max(freq) >= min.prevalence) %>%
     dplyr::ungroup() %>%
-    
-    #' clean and return to original dimensions 
     dplyr::select(taxa, Abundance, SampleN) %>%
     tidyr::pivot_wider(id_cols = SampleN, 
                        names_from = "taxa", 
                        values_from = "Abundance") %>%
     dplyr::filter(SampleN %in% rownames(meta)) %>%
     tibble::column_to_rownames(var = "SampleN")
-  
   
   
   ##### Prepare dataset ##-----------------------------------------------------------------------------------------
